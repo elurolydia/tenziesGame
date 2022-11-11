@@ -1,18 +1,9 @@
 import React from 'react'
 
-const Die = () => {
+const Die = (props) => {
   return (
-    <div id='dice'>
-        <button>1</button>
-        <button>5</button>
-        <button>5</button>
-        <button>3</button>
-        <button>1</button>
-        <button>2</button>
-        <button>1</button>
-        <button>4</button>
-        <button>7</button>
-        <button>1</button>
+    <div>
+        <div>{props.value}</div>
     </div>
   )
 }
