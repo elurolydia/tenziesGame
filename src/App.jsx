@@ -1,6 +1,7 @@
 import React from "react";
 import Die from "./components/Die";
-import {nanoid} from "nanoid" 
+import {nanoid} from "nanoid";
+import Confetti from "react-confetti";
 
 
 
@@ -45,6 +46,8 @@ export default function App () {
         {...die, value: Math.floor((Math.random() * 6) + 1),id: nanoid()}:
         die)
     }))
+
+    return tenzies && setNum(allNewDice()), setTenzies(false)
   }
 
 
@@ -84,7 +87,6 @@ export default function App () {
 
       if (x.length === 10 && allAreEqual(val)){
         setTenzies(true)
-        console.log("You won!")
       } 
     } 
   },[num])
@@ -105,6 +107,7 @@ export default function App () {
       
       <main>
             <div id="mainDiv">
+                {tenzies && <Confetti />}
                 <h2>Tenzies</h2>
                 <p>Roll until all dice are the same. 
                     Click each die to freeze it at its current value between rolls.
@@ -114,7 +117,7 @@ export default function App () {
                   {value} 
                 </div>
 
-                <button id="rollbtn" onClick={btnCall}>Roll</button>
+                <button id="rollbtn" onClick={btnCall}>{tenzies? 'New Game': 'Roll'}</button>  
             </div>
         </main>
 
