@@ -6,8 +6,9 @@ import {nanoid} from "nanoid"
 
 export default function App () {
 
-
   const [num, setNum] = React.useState(allNewDice());
+  const [tenzies, setTenzies] = React.useState(false);
+
 
   function allNewDice(){
     let arr = []
@@ -24,22 +25,69 @@ export default function App () {
     return arr
   }
 
-
-  function btnCall () { 
-    setNum(allNewDice())
-  }
   
+
   function holdDice (id)  {
 
-    setNum(prevNum => prevNum.map(die => {
+    setNum(prevNum =>  prevNum.map(die => {
         return (die.id === id ? 
           {...die, isHeld: !die.isHeld} :
           die)
       })
     )
-
   };
 
+
+
+  function btnCall () {
+    setNum(prevNum => prevNum.map(die => {
+      return (die.isHeld === false? 
+        {...die, value: Math.floor((Math.random() * 6) + 1),id: nanoid()}:
+        die)
+    }))
+  }
+
+
+
+  function allAreEqual(array) {
+    const result = array.every(element => {
+      if (element === array[0]) {
+        return true;
+      }
+    });
+  
+    return result;
+  }
+
+  // PREFERRED WAY
+  // React.useEffect(()=>{
+  //  const allIsHeld = num.every(die => die.isHeld);
+  //  const sameValue = num.every(die => die.value === num[0].value);
+
+  //  if (allIsHeld && sameValue){
+  //   setTenzies(true)
+  //   console.log("You won!")
+
+  //  }
+  // },[num])
+
+
+  React.useEffect(()=>{
+    let x = []
+    let val = []
+    for (let i = 0; i < 10; i++){
+      
+      if (num[i].isHeld){
+        x.push(true)
+        val.push(num[i].value)
+      }
+
+      if (x.length === 10 && allAreEqual(val)){
+        setTenzies(true)
+        console.log("You won!")
+      } 
+    } 
+  },[num])
   
    
   const value = num.map(val => (
